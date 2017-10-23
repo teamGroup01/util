@@ -93,7 +93,7 @@ window.addEventListener('resize', setVideoDimensions, false);
 
 ```
 
-## [videojs](http://videojs.com/)
+## 4.[videojs](http://videojs.com/) / [参考](http://www.cnblogs.com/afrog/p/6689179.html)
 ```
 <link href="http://vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
 <script src="http://vjs.zencdn.net/6.2.8/video.js"></script>
