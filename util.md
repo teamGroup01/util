@@ -1,5 +1,120 @@
 ## 1.电子表格 
 > [handsontable](https://handsontable.com/community-download.html)
+```
+html:
+<link rel="stylesheet" type="text/css" href="http://docs.handsontable.com/pro/bower_components/handsontable-pro/dist/handsontable.full.min.css">
+<link rel="stylesheet" type="text/css" href="http://handsontable.com/static/css/main.css">
+<script src="http://docs.handsontable.com/pro/bower_components/handsontable-pro/dist/handsontable.full.min.js"></script>
+	<button id="btn">export to csv</button>
+	<div id="hot"></div>
+js:
+		var dataObject = [
+	        {
+	            id: 22,
+	            flag: 'PHP',
+	            currencyCode: 'PHP',
+	            currency: 'Philippine Peso',
+	            level: 46.3108,
+	            units: 'PHP / USD',
+	            asOf: '08/19/2015',
+	            onedChng: 0.0012
+	        }
+	    ];
+        var currencyCodes = ['EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'SEK', 'NOK', 'BRL', 'CNY', 'RUB', 'INR', 'TRY', 'THB', 'IDR', 'MYR', 'MXN', 'ARS', 'DKK', 'ILS', 'PHP'];
+
+        var flagRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+            var currencyCode = value;
+
+	        while (td.firstChild) {
+	            td.removeChild(td.firstChild);
+	        }
+
+	        if (currencyCodes.indexOf(currencyCode) > -1) {
+	            var flagElement = document.createElement('DIV');
+	            flagElement.className = 'flag ' + currencyCode.toLowerCase();
+	            td.appendChild(flagElement);
+
+	        } else {
+	            var textNode = document.createTextNode(value === null ? '' : value);
+	            td.appendChild(textNode);
+	        }
+	    };
+
+	    var hotElement = document.querySelector('#hot');
+	    var hotElementContainer = hotElement.parentNode;
+	    var hotSettings = {
+		    data: dataObject,
+		    columns: [
+		        {
+		            data: 'id',
+		            type: 'numeric',
+		            width: 40
+		        },
+		        {
+		            data: 'flag',
+					renderer: flagRenderer
+		        },
+		        {
+		            data: 'currencyCode',
+		            type: 'text'
+		        },
+		        {
+		            data: 'currency',
+		            type: 'text'
+		        },
+		        {
+		            data: 'level',
+		            type: 'numeric',
+		            format: '0.0000'
+		        },
+		        {
+		            data: 'units',
+		            type: 'text'
+		        },
+		        {
+		            data: 'asOf',
+		            type: 'date',
+		            dateFormat: 'MM/DD/YYYY'
+		        },
+		        {
+		            data: 'onedChng',
+		            type: 'numeric',
+		            format: '0.00%'
+		        }
+		    ],
+		    // stretchH: 'all',
+		    // width: 806,
+		    // autoWrapRow: true,
+		    // height: 487,
+		    // maxRows: 22,
+		    // rowHeaders: true,
+		    // colHeaders: [
+		    //     'ID',
+		    //     'Country',
+		    //     'Code',
+		    //     'Currency',
+		    //     'Level',
+		    //     'Units',
+		    //     'Date',
+		    //     'Change'
+		    // ],
+		    // manualRowResize: true,
+		    // manualColumnResize: true,
+		    // manualRowMove: true,
+		    // manualColumnMove: true,
+		    // contextMenu: true,
+		    // filters: true,
+		    // dropdownMenu: true
+		};
+
+        var hot = new Handsontable(hotElement, hotSettings);
+        var exportPlugin = hot.getPlugin('exportFile');
+        exportPlugin.exportAsString('csv');
+        
+        document.getElementById('btn').addEventListener('click', () => {
+        	exportPlugin.downloadFile('csv', {filename: 'MyFile'});
+        })
+```
 ***
 ## 2.Boostrap 3级菜单显示隐藏
 ```
